@@ -26,12 +26,22 @@ double calcula_integral1(double a, double b, int n)
         omp_get_num_threads());
     }
     
+     /*Les seguents dos variables son per a mesurar el temps de execucio*/
+   double t1, t2;
+   
+   /*Punt inicial del cronometro*/
+   t1=omp_get_wtime();
+    
     /*reduction (+:s) fa que la variable s que es una suma (de ahi +:s) funcione correctament*/
    #pragma omp parallel for reduction(+:s)
    for (i=0; i<n; i++) {     
       s+=f(a+h*(i+0.5));
    }
 
+    /*Punt final del cronometro*/
+   t2=omp_get_wtime();
+   printf("Temps de execucio: %f\n", t2 - t1);
+   
    result = h*s;
    return result;
 }
@@ -73,12 +83,6 @@ int main(int argc, char *argv[])
 
    variante=atoi(argv[1]);
    
-    /*Les seguents dos variables son per a mesurar el temps de execucio*/
-   double t1, t2;
-   
-   /*Punt inicial del cronometro*/
-   t1=omp_get_wtime();
-
    switch (variante) {
       case 1:
          result = calcula_integral1(a,b,n);         
@@ -90,11 +94,7 @@ int main(int argc, char *argv[])
          fprintf(stderr, "Numero de variante incorrecto\n");
          return 1;
    }
-   
-      /*Punt final del cronometro*/
-   t2=omp_get_wtime();
-   printf("Temps de execucio: %f\n", t2 - t1);
-   
+     
    printf("Valor de la integral = %.12f\n", result);
 
    return 0;

@@ -1,0 +1,9 @@
+Numero de hilos paralelos: 2
+Abierta una imagen de n:512, m:512
+Temps de execucio: 1.519140
+Numero de hilos paralelos: 8
+Abierta una imagen de n:512, m:512
+Temps de execucio: 0.417849
+Numero de hilos paralelos: 32
+Abierta una imagen de n:512, m:512
+Temps de execucio: 0.210291

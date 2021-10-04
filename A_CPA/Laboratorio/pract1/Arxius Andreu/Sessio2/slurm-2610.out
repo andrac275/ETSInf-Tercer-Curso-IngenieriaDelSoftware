@@ -1,0 +1,11 @@
+Este es el jobBucle2. Aci si acaba amb 2 , 8 i 32 fils.
+
+Numero de hilos paralelos: 2
+Abierta una imagen de n:512, m:512
+Temps de execucio: 4.949326
+Numero de hilos paralelos: 8
+Abierta una imagen de n:512, m:512
+Temps de execucio: 12.423067
+Numero de hilos paralelos: 32
+Abierta una imagen de n:512, m:512
+Temps de execucio: 35.056997

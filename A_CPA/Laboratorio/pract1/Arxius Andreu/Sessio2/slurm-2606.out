@@ -1,0 +1,6 @@
+Este es el jobBucle1. Amb 2 fils ja tarda 54 segons. Si poses mes
+de dos fils no acaba.
+
+Numero de hilos paralelos: 2
+Abierta una imagen de n:512, m:512
+Temps de execucio: 54.751765

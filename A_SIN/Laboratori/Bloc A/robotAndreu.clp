@@ -1,58 +1,72 @@
+;ExerciciRobot: Estat, Nivell i Nodes_Generats
+(defglobal ?*Nivell* = 55)
+(defglobal ?*Nod_Gen* = 0)
+
 ;BASE DE FETS
-(deffacts bf
+(deffacts robotLlaunes
     ;Map = mapa (Map ?Amplaria ?Altura)
     (Map 8 5)   
 
-    ;Con = Contenidor (Con ?columna ?fila)
-    (Con 1 3) (Con 1 5) (Con 2 1) (Con 4 3) (Con 4 5) 
-    (Con 6 1) (Con 7 5) (Con 8 1) (Con 8 3)     
+    ;Con = Contenidor (Con ?eix_X ?eix_Y)
+    (Con 1 3) (Con 1 5) (Con 2 1) (Con 4 3) (Con 4 5) (Con 6 1) (Con 7 5) (Con 8 1) (Con 8 3)     
 
     ;Robot i fets dinamics
-    (R 3 2 LL L 3 3 L 3 1 L 6 4)
-        ; R=Robot LL=Llaunes
-        ; (R ?c ?f  LL [L ?cl ?fl]ˆm)
-        ; c=columna f=fila cl/fl=col/fila
+    ; R=Robot LL=Llaunes
+    ; (R ?c ?f  LL [L ?cl ?fl]ˆm n ?n)
+    ; c=eix_X f=eix_Y cl/fl=eix_X/eix_Y n=nodes_generats
+    (R 3 2 LL L 3 3 L 3 1 L 6 4 n 0)
+    
 )
 
 ;DEFINICIO DE REGLES
 ;Moure a casilla buida
     ;Moure BAIX a BUIT
-    (defrule baixarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes) (not (Con ?x =(- ?y 1)))
+    (defrule baixarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con ?x =(- ?y 1)))
     (test (> ?y 1))
     (test (not (member$ (create$ L ?x (- ?y 1)) $?llaunes)))
-    => (assert (R ?x (- ?y 1) $?llaunes))
-	;=>(printout t "S'ha mogut" crlf)
-    )
+    (test (< ?n ?*Nivell*))
+        => (assert (R ?x (- ?y 1) $?llaunes n (+ ?n 1)))
+        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+	)
 	
 	;Moure PUJAR a BUIT
-    (defrule pujarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes) (not (Con ?x =(+ ?y 1)))
+    (defrule pujarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con ?x =(+ ?y 1)))
     (test (< ?y ?My))
     (test (not (member$ (create$ L ?x (+ ?y 1)) $?llaunes)))
-    => (assert (R ?x (+ ?y 1) $?llaunes))
-	;=>(printout t "S'ha mogut" crlf)
-    )
+    (test (< ?n ?*Nivell*))
+        => (assert (R ?x (+ ?y 1) $?llaunes n (+ ?n 1)))
+        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+	)
 	
 	;Moure DRETA a BUIT
-    (defrule dretaBuit (Map ?Mx ?My) (R ?x ?y $?llaunes) (not (Con =(+ ?x 1) ?y))
+    (defrule dretaBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con =(+ ?x 1) ?y))
     (test (< ?x ?Mx))
     (test (not (member$ (create$ L (+ ?x 1) ?y) $?llaunes)))
-    => (assert (R (+ ?x 1) ?y $?llaunes))
-	;=>(printout t "S'ha mogut" crlf)
-    )
+    (test (< ?n ?*Nivell*))
+        => (assert (R (+ ?x 1) ?y $?llaunes n (+ ?n 1)))
+        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+	)
 
 	;Moure ESQUERRA a BUIT
-    (defrule esquerraBuit (Map ?Mx ?My) (R ?x ?y $?llaunes) (not (Con =(- ?x 1) ?y))
+    (defrule esquerraBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con =(- ?x 1) ?y))
     (test (> ?x 1))
     (test (not (member$ (create$ L (- ?x 1) ?y) $?llaunes)))
-    => (assert (R (- ?x 1) ?y $?llaunes))
-	;=>(printout t "S'ha mogut" crlf)
-    )
-
-
-
+    (test (< ?n ?*Nivell*))
+        => (assert (R (- ?x 1) ?y $?llaunes n (+ ?n 1)))
+        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+	)
 
 ;Moure espentant llauna
-
+    ;Moure BAIX a ESPENTANT
+    (defrule baixarEspentant (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?x ?ly $?algoDespres n ?n) (not (Con ?x =(- ?y 1))) (not (Con ?x =(- ?y 2)))
+    (test (> ?ly 1))    ;Comprovar que no tirare la llauna fora del quadre
+    (test (= ?ly (- ?y 1)))
+    (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
+    (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
+    (test (< ?n ?*Nivell*))
+        => (assert (R ?x (- ?y 1) $?algoAntes L ?x (- ?ly 1) $?algoDespres  n (+ ?n 1)))
+        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+	)
 
 ;Moure espentant llauna a Contenidor
 

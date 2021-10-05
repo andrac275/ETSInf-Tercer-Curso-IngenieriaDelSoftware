@@ -1,0 +1,2 @@
+Temps de execucio: 84.821911
+Entre el 1 y el 60000000 hay 3562116 numeros primos.

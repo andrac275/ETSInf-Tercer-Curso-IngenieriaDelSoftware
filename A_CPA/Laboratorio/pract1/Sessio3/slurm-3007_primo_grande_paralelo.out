@@ -1,0 +1,9 @@
+Numero de hilos paralelos: 4
+Temps de execucio: 5.656215
+El mayor primo que cabe en 8 bytes es 18446744073709551557.
+Numero de hilos paralelos: 8
+Temps de execucio: 2.845672
+El mayor primo que cabe en 8 bytes es 18446744073709551557.
+Numero de hilos paralelos: 16
+Temps de execucio: 1.708151
+El mayor primo que cabe en 8 bytes es 18446744073709551557.

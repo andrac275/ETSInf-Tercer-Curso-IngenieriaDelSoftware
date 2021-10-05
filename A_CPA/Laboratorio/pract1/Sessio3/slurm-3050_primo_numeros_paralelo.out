@@ -1,0 +1,9 @@
+Numero de hilos paralelos: 4
+Temps de execucio: 26.491714
+Entre el 1 y el 60000000 hay 3562116 numeros primos.
+Numero de hilos paralelos: 8
+Temps de execucio: 13.631359
+Entre el 1 y el 60000000 hay 3562116 numeros primos.
+Numero de hilos paralelos: 16
+Temps de execucio: 7.685707
+Entre el 1 y el 60000000 hay 3562116 numeros primos.

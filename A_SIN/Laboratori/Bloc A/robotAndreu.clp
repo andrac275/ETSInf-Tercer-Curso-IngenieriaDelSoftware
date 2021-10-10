@@ -1,6 +1,17 @@
 ;ExerciciRobot: Estat, Nivell i Nodes_Generats      Comentar: Ctrl+K+C    Descomentar: Ctrl+K+U
-(defglobal ?*Profunditat* = 4)
-(defglobal ?*Nod_Gen* = 0)
+;Variabes globals
+(defglobal ?*profunditat* = 20)
+(defglobal ?*N* = 0)
+
+;Funcio preguntar profunditat maxima
+(deffunction profunditat () 
+    (reset)
+    (printout t "Profunditat maxima: ")
+        (bind ?*profunditat* (read))
+)
+
+;Cridar funcio anterior
+(profunditat)
 
 ;BASE DE FETS
 (deffacts robotLlaunes
@@ -18,42 +29,43 @@
     
 )
 
+
 ;DEFINICIO DE REGLES
 ;Moure a casilla buida
     ;Moure BAIX a BUIT
     (defrule baixarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con ?x =(- ?y 1)))
     (test (> ?y 1))
     (test (not (member$ (create$ L ?x (- ?y 1)) $?llaunes)))
-    (test (< ?n ?*Profunditat*))
+    (test (< ?n ?*profunditat*))
         => (assert (R ?x (- ?y 1) $?llaunes n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+        (bind ?*N* (+ ?*N* 1))
 	)
 	
 	;Moure PUJAR a BUIT
     (defrule pujarBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con ?x =(+ ?y 1)))
     (test (< ?y ?My))
     (test (not (member$ (create$ L ?x (+ ?y 1)) $?llaunes)))
-    (test (< ?n ?*Profunditat*))
+    (test (< ?n ?*profunditat*))
         => (assert (R ?x (+ ?y 1) $?llaunes n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+        (bind ?*N* (+ ?*N* 1))
 	)
 	
 	;Moure DRETA a BUIT
     (defrule dretaBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con =(+ ?x 1) ?y))
     (test (< ?x ?Mx))
     (test (not (member$ (create$ L (+ ?x 1) ?y) $?llaunes)))
-    (test (< ?n ?*Profunditat*))
+    (test (< ?n ?*profunditat*))
         => (assert (R (+ ?x 1) ?y $?llaunes n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
 	;Moure ESQUERRA a BUIT
     (defrule esquerraBuit (Map ?Mx ?My) (R ?x ?y $?llaunes n ?n) (not (Con =(- ?x 1) ?y))
     (test (> ?x 1))
     (test (not (member$ (create$ L (- ?x 1) ?y) $?llaunes)))
-    (test (< ?n ?*Profunditat*))
+    (test (< ?n ?*profunditat*))
         => (assert (R (- ?x 1) ?y $?llaunes n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
 ;Moure espentant llauna
@@ -63,9 +75,9 @@
     (test (= ?ly (- ?y 1)))
     (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
     (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
-    (test (< ?n ?*Profunditat*))
-        => (assert (R ?x (- ?y 1) $?algoAntes L ?x (- ?ly 1) $?algoDespres  n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+    (test (< ?n ?*profunditat*))
+        => (assert (R ?x (- ?y 1) $?algoAntes L ?x (- ?ly 1) $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
     ;Moure DALT a ESPENTANT
@@ -74,9 +86,9 @@
     (test (= ?ly (+ ?y 1)))
     (test (not (member$ (create$ L ?x (+ ?ly 1)) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
     (test (not (member$ (create$ L ?x (+ ?ly 1)) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
-    (test (< ?n ?*Profunditat*))
-        => (assert (R ?x (+ ?y 1) $?algoAntes L ?x (+ ?ly 1) $?algoDespres  n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+    (test (< ?n ?*profunditat*))
+        => (assert (R ?x (+ ?y 1) $?algoAntes L ?x (+ ?ly 1) $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
     ;Moure ESQUERRA a ESPENTANT
@@ -86,33 +98,90 @@
 
     (test (not (member$ (create$ L (- ?lx 1) ?y) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
     (test (not (member$ (create$ L (- ?lx 1) ?y) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
-    (test (< ?n ?*Profunditat*))
-        => (assert (R (- ?x 1) ?y $?algoAntes L (- ?lx 1) ?y $?algoDespres  n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+    (test (< ?n ?*profunditat*))
+        => (assert (R (- ?x 1) ?y $?algoAntes L (- ?lx 1) ?y $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
     ;Moure DRETA a ESPENTANT
-    ;ESTIC ACI ANDREU
-    (defrule dretaEspentant (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?lx ?y $?algoDespres n ?n) (not (Con =(- ?x 1) ?y)) (not (Con =(- ?x 2) ?y))
+    (defrule dretaEspentant (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?lx ?y $?algoDespres n ?n) (not (Con =(+ ?x 1) ?y)) (not (Con =(+ ?x 2) ?y))
+    (test (< ?lx ?Mx))    ;Comprovar que no tirare la llauna fora del quadre
+    (test (= ?lx (+ ?x 1)))
+
+    (test (not (member$ (create$ L (+ ?lx 1) ?y) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
+    (test (not (member$ (create$ L (+ ?lx 1) ?y) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
+    (test (< ?n ?*profunditat*))
+        => (assert (R (+ ?x 1) ?y $?algoAntes L (+ ?lx 1) ?y $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
+	)
+
+;Moure espentant llauna a Contenidor
+    ;Moure BAIX a ESPENTANT a CONTENIDOR
+    (defrule baixarEspentantContenidor 
+        (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?x ?ly $?algoDespres n ?n) 
+        (not (Con ?x =(- ?y 1)))    ;No contenidor en adyacent
+        (Con ?x =(- ?y 2))          ;Si contenidor 2 en direccio a espentar
+    (test (> ?ly 1))    ;Comprovar que no tirare la llauna fora del quadre
+    (test (= ?ly (- ?y 1)))
+    (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
+    (test (not (member$ (create$ L ?x (- ?ly 1)) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
+    (test (< ?n ?*profunditat*))
+        => (assert (R ?x (- ?y 1) $?algoAntes $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
+	)
+
+    ;Moure DALT a ESPENTANT a CONTENIDOR
+    (defrule pujarEspentantContenidor 
+        (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?x ?ly $?algoDespres n ?n) 
+        (not (Con ?x =(+ ?y 1)))    ;No contenidor en adyacent
+        (Con ?x =(+ ?y 2))          ;Si contenidor 2 en direccio a espentar
+    (test (< ?ly ?My))    ;Comprovar que no tirare la llauna fora del quadre
+    (test (= ?ly (+ ?y 1)))
+    (test (not (member$ (create$ L ?x (+ ?ly 1)) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
+    (test (not (member$ (create$ L ?x (+ ?ly 1)) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
+    (test (< ?n ?*profunditat*))
+        => (assert (R ?x (+ ?y 1) $?algoAntes $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
+	)
+
+    ;Moure ESQUERRA a ESPENTANT a CONTENIDOR
+    (defrule esquerraEspentantContenidor 
+        (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?lx ?y $?algoDespres n ?n) 
+        (not (Con =(- ?x 1) ?y))    ;No contenidor en adyacent
+        (Con =(- ?x 2) ?y)          ;Si contenidor 2 en direccio a espentar
     (test (> ?lx 1))    ;Comprovar que no tirare la llauna fora del quadre
     (test (= ?lx (- ?x 1)))
 
     (test (not (member$ (create$ L (- ?lx 1) ?y) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
     (test (not (member$ (create$ L (- ?lx 1) ?y) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
-    (test (< ?n ?*Profunditat*))
-        => (assert (R (- ?x 1) ?y $?algoAntes L (- ?lx 1) ?y $?algoDespres  n (+ ?n 1)))
-        (bind ?*Nod_Gen* (+ ?*Nod_Gen* 1))
+    (test (< ?n ?*profunditat*))
+        => (assert (R (- ?x 1) ?y $?algoAntes $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
 	)
 
-;Moure espentant llauna a Contenidor
+    ;Moure DRETA a ESPENTANT a CONTENIDOR
+    (defrule dretaEspentantContenidor 
+        (Map ?Mx ?My) (R ?x ?y $?algoAntes L ?lx ?y $?algoDespres n ?n) 
+        (not (Con =(+ ?x 1) ?y))    ;No contenidor en adyacent
+        (Con =(+ ?x 2) ?y)          ;Si contenidor 2 en direccio a espentar
+    (test (< ?lx ?Mx))    ;Comprovar que no tirare la llauna fora del quadre
+    (test (= ?lx (+ ?x 1)))
 
+    (test (not (member$ (create$ L (+ ?lx 1) ?y) $?algoAntes)))     ;Comprovar en la cadena de abans que no hi ha una llauna on vull espentar
+    (test (not (member$ (create$ L (+ ?lx 1) ?y) $?algoDespres)))   ;Comprovar en la cadena de despres que no hi ha una llauna on vull espentar
+    (test (< ?n ?*profunditat*))
+        => (assert (R (+ ?x 1) ?y $?algoAntes $?algoDespres n (+ ?n 1)))
+        (bind ?*N* (+ ?*N* 1))
+	)
 
 ;Objetiu
-    (defrule objectiu (R ?x ?y LL n ?n) => (printout t "Llaunes netes!" crlf)) 
+    (defrule objectiu (R ?x ?y LL n ?n) 
+        => (printout t "Llaunes netes! n=" ?n " N=" ?*N* crlf) (halt)) 
 
 (watch facts)
 (watch activations)
-(set-strategy breadth) ; cal provar depth i breadth
+(set-strategy breadth)     ;Breadth: Amplaria
+;(set-strategy depth))     ;Depth: Profunditat. No possar estrategia implica depth
 (reset)
 (run)
 (exit)

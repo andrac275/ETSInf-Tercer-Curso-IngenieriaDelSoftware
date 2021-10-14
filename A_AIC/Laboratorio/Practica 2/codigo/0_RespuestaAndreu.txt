@@ -1,0 +1,103 @@
+####Pregunta 1####  ./mips-m -d p -c s3 -f apxpy.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo 8  al ciclo 28.
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de _21_
+ciclos si el salto es efectivo y de _21_ ciclos si el salto no es efectivo.
+
+Los ciclos de parada (por iteracion) son _11_ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son _8_ ciclos y los ciclos de parada por riesgos de control
+son _3_.
+
+El bucle ejecuta _10_ instrucciones.
+
+El CPI alcanzado es de: _(21) / 10 = 2.1_.
+
+
+####Pregunta 2####  ./mips-m -d p -c pnt3 -f apxpy.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo _8_  al ciclo _28_. LES MATEIXES QUE EL PRIMER EXERCICI
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de _21_
+ciclos si el salto es efectivo y de _18_ ciclos si el salto no es efectivo.
+
+Los ciclos de parada son _11_ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son _8_ ciclos y los ciclos de parada por riesgos de control
+son _3_. SI NO BOTA, NO HI HAN DE CONTROL, PER TANT SERIEN 8 CICLES DE PARADA
+
+El bucle ejecuta _10_ instrucciones.
+
+El CPI alcanzado es de: _21/10=2.1_.
+
+####Pregunta 3####  ./mips-m -d c -c pnt3 -f apxpy.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo _6_  al ciclo _21_.
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de _15_
+ciclos si el salto es efectivo y de _12_ ciclos si el salto no es efectivo.
+
+Los ciclos de parada son _5_ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son _2_ ciclos y los ciclos de parada por riesgos de control
+son _3_.
+
+El bucle ejecuta _10_ instrucciones.
+
+El CPI alcanzado es de: _15/10=1.5_.
+
+--------------------------------------------------------------------------------------
+REALIZACIÓN DE MODIFICACIONES EN EL CÓDIGO
+
+####Pregunta 1####  ./mips-m -d c -c pnt3 -f apxpy-p3.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo _6_  al ciclo _19_.
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de _13_
+ciclos si el salto es efectivo y de _10_ ciclos si el salto no es efectivo.
+
+Los ciclos de parada son _3_ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son _0_ ciclos y los ciclos de parada por riesgos de control
+son _3_.
+
+El bucle ejecuta _10_ instrucciones.
+
+El CPI alcanzado es de: _13/10=1.3_.
+
+####Pregunta 2####  ./mips-m -d c -c pnt1 -f apxpy-p1.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo _6_  al ciclo _18_.
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de _12_
+ciclos si el salto es efectivo y de _11_ ciclos si el salto no es efectivo.
+
+Los ciclos de parada son _2_ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son _0_ ciclos y los ciclos de parada por riesgos de control
+son _2_.
+
+El bucle ejecuta _10_ instrucciones.
+
+El CPI alcanzado es de: _12/10=1,2_.
+
+####Pregunta 3####  ./mips-m -d c -c ds1 -f apxpy-d1.s
+La contribucion de la primera iteracion al tiempo de ejecucion comprende desde
+el ciclo __  al ciclo __.
+
+El numero de ciclos de reloj consumido por una iteracion del bucle es de __
+ciclos si el salto es efectivo y de __ ciclos si el salto no es efectivo.
+
+Los ciclos de parada son __ ciclos, de los cuales los ciclos de parada por
+riesgos de datos son __ ciclos y los ciclos de parada por riesgos de control
+son __.
+
+El bucle ejecuta __ instrucciones.
+
+El CPI alcanzado es de: __.
+
+--------------------------------------------------------------------------------------
+REALIZACIÓN DE UN NUEVO PROGRAMA (search.s)
+
+1.Completar codigo de search.s
+
+2.Analizar tiempo de ejecucion y CPI.   ./mips-m -d c -c pnt1 -f search.s
+
+3.Identificar casos de parada y causa. Modificar codigo para reducir la penalizacion.
+

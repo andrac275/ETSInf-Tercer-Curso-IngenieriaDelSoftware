@@ -1,4 +1,4 @@
-;ExerciciRobot: Estat, Nivell i Nodes_Generats      Comentar: Ctrl+K+C    Descomentar: Ctrl+K+U
+;ExerciciRobot: Estat, Nivell i Nodes_Generats.      Comentar: Ctrl+K+C    Descomentar: Ctrl+K+U
 ;Variabes globals
 (defglobal ?*Profunditat* = 1)
 (defglobal ?*N* = 0)

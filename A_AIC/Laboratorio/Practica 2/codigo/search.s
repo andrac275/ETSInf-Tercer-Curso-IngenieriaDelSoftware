@@ -9,12 +9,19 @@ start:	dadd r1,$gp,a   ; Puntero
         dadd r10,r0,r0  ; Contador de ceros
  
 loop:
-	ld r12,0(r1)   
-        dadd r1,r1,#8
-        
-
-        seq r5,r4,r1
-	beqz r5,loop
+	ld r12,0(r1)    ;carregar dada del vector
+        dadd r1,r1,#8   ;moure punter a seguent dada del vector           
+        daddi r4, r4, -1 ;restar 1 dada per llegir
+        beqz r12, mas1  ;si es un 0 el element del vector...
+        bnez r4, loop   ;si encara queden dades per llegir, iterar loop
+acabar:
         nop
         nop
         trap #0
+
+mas1:   daddi r10,r10,1 ;sumar 1 al contador de zeros.
+        bnez r4, loop   ;si encara queden dades per llegir, iterar loop
+        j acabar
+
+
+

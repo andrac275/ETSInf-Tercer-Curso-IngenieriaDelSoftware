@@ -23,16 +23,17 @@ start:
 	ld r10,a($gp)
 
 loop:
-	ld r12,0(r1)
+	ld r12,0(r1)	
 	ld r14,0(r2)
 	dadd r12,r10,r12
 	dadd r14,r12,r14
 	sd r14,0(r3)
 	dadd r1,r1,#8
 	dadd r2,r2,#8
-	dadd r3,r3,#8
+	
+	seq r5,r4,r1
 	beqz r5,loop
-	seq r5,r4,r1	
+	dadd r3,r3,#8		
 	nop
 	nop
 	trap #0         ; Fin de programa

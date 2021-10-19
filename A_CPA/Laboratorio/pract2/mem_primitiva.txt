@@ -1,0 +1,92 @@
+Per al primer fitxer, que hem anomenat restore0.c  (no te cap canvi) hem compilat amb el comandament "gcc -fopenmp -Wall -o restore0 restore0.c", 
+i hem executat amb "./restore0 -i peque.ppm -o pequeOut.ppm -b 8", el temps ha sigut de 0.05. Amb el mateix programa, per a la imatge gran, 
+que s'executa amb "./restore0 -i grande.ppm -o grandeOut.ppm -b 2", el temps ha sigut de 57.22. 
+Utilitzarem aquestos temps del algorisme secuencial com a referencia per comparar amb les versions paral·leles. 
+
+Exercici 1:
+Per a la primera versió que demana el document anomenada restore1.c, cal paralelitzar les funcions distance i swap. 
+
+	Per a la funció distance paralelitzem l'unic bucle que conté amb la directiva "#pragma omp parallel for reduction(+:d)". 
+	El fragment de codi es el següent:
+		#pragma omp parallel for reduction(+:d) 
+		  for ( i = 0 ; i < n ; i++ ) {
+			j = i * stride;
+			r = (int)a1[j]   - a2[j];   if ( r < 0 ) r = -r;  // Difference in red
+			g = (int)a1[j+1] - a2[j+1]; if ( g < 0 ) g = -g;  // Difference in green
+			b = (int)a1[j+2] - a2[j+2]; if ( b < 0 ) b = -b;  // Difference in blue
+			d += r + g + b;
+		  }
+	Hem escollit fer un reduction de la variable 'd' perque es una variable que acumula en cada iteració i es retorna 'd' després del bucle.
+
+
+	Per a la funció swap, s'ha paralelitzat el bucle extern 'y'.
+		#pragma omp parallel for private(x, d, aux)
+		for ( y = 0 ; y < rh ; y++ ) {
+		  // Swap line y of the two rectangles
+		  d = w * y;
+		  for ( x = 0 ; x < rw ; x++ ) {
+			// Swap a single byte of the two lines
+			aux = a1[d+x];
+			a1[d+x] = a2[d+x];
+			a2[d+x] = aux;
+		  }
+		}
+		
+	Hem fet privada la variable del bucle intern 'x' ja que s'utilitza per a càlculs interns de la posició del vector i cada fil necessita la seva pròpia còpia,
+	a més, la 'd' perque varia segons la iteració de la 'y' i finalment la variable 'aux' del bucle intern.
+		
+	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següents temps:
+		-Per a la imatge gran s'ha obtés el temps de:
+	Hem realitzat una comprovació de la imatge resultant amb la referència obtinguda en la versió secuencial i coincideixen. "cmp grandeRef.ppm grandeOut_1.ppm"
+	
+	
+	
+Exercici 2:
+Per a la segona versió que demana el document anomenada restore2.c, cal paralelitzar la funcio principal 'process', junt a la funció 'swap' ja paralelitzada en la 
+versió anterior i cal desparalelitzar 'distance'.
+
+	Els bucles 'x' i 'y' externs no se poden paral.lelitzar perque la iteració actual depén del resultat de la iteració anterior. En canvi paralelitzarem els bucles
+	interns 'y2' i 'x2' amb la directiva de pragma corresponent. Quedant així:
+		#pragma omp parallel for private (d)
+		for ( y2 = y ; y2 < h ; y2 += bh ) {
+		d = distance( w, A(a,0,y-1,w), A(a,0,y2,w), 1 );
+		if ( d < min ) {
+			#pragma omp critical
+			if ( d < min ) {
+				min = d; my = y2;
+			} 
+		} 
+		}
+
+		#pragma omp parallel for private (d)
+		for ( x2 = x ; x2 < w ; x2 += bw ) {
+		d = distance( h, A(a,x-1,0,w), A(a,x2,0,w), w );
+		if ( d < min ) { 
+			#pragma omp critical
+			if ( d < min ) { 
+			min = d; mx = x2; 
+			}
+		}
+		}
+
+	Cal tindre la variable 'd' privada perquè cada fil tinga la seva còpia pròpia. A més se necesita la directiva '#pragma omp critical' abans de modificar
+	les variables min, my o mx. Col·locar la directiva després de la primera comprovació 'if' és per eficiència del programa. No serà necesari possar les variables
+	'my' i 'mx' com a privades perquè se actualitzen de una manera atòmica; la variable 'min' tampoc és necessari possar-la privada perquè s'executa el bucle 'x' una
+	vegada ha acabat el bucle 'y'.
+	
+	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següents temps:
+		-Per a la imatge gran s'ha obtés el temps de:
+	Hem realitzat una comprovació de la imatge resultant amb la referència obtinguda en la versió secuencial i coincideixen. "cmp grandeRef.ppm grandeOut_2.ppm"
+
+Exercici 3:
+	
+	
+Exercici 4:
+
+
+Exercici 5:
+
+
+Exercici 6:
+
+

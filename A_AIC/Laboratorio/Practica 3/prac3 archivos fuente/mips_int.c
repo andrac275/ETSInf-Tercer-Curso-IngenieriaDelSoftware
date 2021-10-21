@@ -695,26 +695,23 @@ void detectar_riesgos_datos(void) {
             /* Riesgo entre EX e ID */            
               /* INSERTAR CÓDIGO ALUMNO*/
 		
-
-		if ((escribe_Rdst(ID_EX.IR)  && 
+		if (escribe_Rdst(ID_EX.IR)  && 
 			(lee_Rfte1(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
-			(lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2))))
- {
-			IFstall = SI;
-	//		IDstall = SI;
+			(lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2)))
+            {
+                IFstall = SI;
+                IDstall = SI;
 		}
 
             /* Riesgo entre MEM e ID */            
               /* INSERTAR CÓDIGO ALUMNO*/
-
-		int cond2 = escribe_Rdst(EX_MEM.IR)  && 
+		
+		if (escribe_Rdst(EX_MEM.IR)  && 
 			(lee_Rfte1(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
-			(lee_Rfte2(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente2));
+			(lee_Rfte2(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente2))) {
 		
-		if (cond2) {
-		
-			IFstall = SI;
-	//		IDstall = SI;
+                IFstall = SI;
+                IDstall = SI;
 		}
 
             break;

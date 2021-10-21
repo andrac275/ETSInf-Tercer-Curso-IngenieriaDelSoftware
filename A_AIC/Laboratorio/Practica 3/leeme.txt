@@ -1,0 +1,5 @@
+	En la carpeta de archivos Fuente... Els arxius que hem tocat per aquesta practica son:
+-mips_int.c	al final del codi, les ultimes linies esta "switch (solucion_riesgos_datos)"
+-mips.c
+
+	Tots els demes ens els facilitaren i te funcionament del programa que se explica en el pdf.

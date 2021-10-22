@@ -1,4 +1,4 @@
-;ExerciciRobot: Estat, Nivell i Nodes_Generats.      Comentar: Ctrl+K+C    Descomentar: Ctrl+K+U
+;ExerciciRobot: Estat, Nivell i Nodes_Generats      Comentar: Ctrl+K+C    Descomentar: Ctrl+K+U
 ;Variabes globals
 (defglobal ?*Profunditat* = 1)
 (defglobal ?*N* = 0)
@@ -165,7 +165,9 @@
 	)
 
 ;Objetiu
-    (defrule objectiu (R ?x ?y LL n ?n) 
+    (defrule objectiu 
+    (declare (salience 1))
+    (R ?x ?y LL n ?n) 
         => (printout t "Llaunes netes! n=" ?n " N=" ?*N* crlf) (halt)) 
 
 

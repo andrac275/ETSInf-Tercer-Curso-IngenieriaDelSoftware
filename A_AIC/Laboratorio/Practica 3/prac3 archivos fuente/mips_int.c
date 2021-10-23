@@ -303,8 +303,8 @@ dword mux_ALUsup(dword npc, dword ra, dword mem, dword wb) {
                     /* Los cortocircuitos desde MEM tienen prioridad sobre WB, ya
                        que la instruccion que hay en MEM es mas moderna */
                                         /* WBtoEX */
-                    
-              /* INSERTAR CÓDIGO */
+
+              /* INSERTAR CÓDIGO ALUMNO*/
 
                     /* if (...) {
                             ...
@@ -312,10 +312,21 @@ dword mux_ALUsup(dword npc, dword ra, dword mem, dword wb) {
                             result = wb;
                         }
                      */
+                     if (escribe_Rdst(MEM_WB.IR)) {
+                        if (lee_Rfte1(ID_EX.IR) && (MEM_WB.IR.Rdestino == ID_EX.IR.Rfuente1)) {
+                           ID_EX.Ra = EX_MEM.ALUout;
+                        }
+                        if (lee_Rfte2(ID_EX.IR) && (MEM_WB.IR.Rdestino == ID_EX.IR.Rfuente2)) {
+                           ID_EX.Ra = EX_MEM.ALUout;
+                        }
+                        WBaEXalu_s = SI;
+                        result = wb;
+                    }
 
                     /* MEMtoEX */
-                    
-              /* INSERTAR CÓDIGO */
+
+
+              /* INSERTAR CÓDIGO ALUMNO*/
 
                     /* if (...) {
                             ...
@@ -323,6 +334,16 @@ dword mux_ALUsup(dword npc, dword ra, dword mem, dword wb) {
                             result = mem;
                         }
                      */
+                     if (escribe_Rdst(EX_MEM.IR)) {
+                        if (lee_Rfte1(ID_EX.IR) && (EX_MEM.IR.Rdestino == ID_EX.IR.Rfuente1)) {
+                           ID_EX.Ra = EX_MEM.ALUout;
+                        }
+                        if (lee_Rfte2(ID_EX.IR) && (EX_MEM.IR.Rdestino == ID_EX.IR.Rfuente2)) {
+                            ID_EX.Rb = EX_MEM.ALUout;
+                        }
+                        MEMaEXalu_s = SI;
+                        result = mem;
+                    }
                     break;
             }
     }
@@ -367,9 +388,9 @@ dword mux_ALUinf(dword rb, dword imm, dword mem, dword wb) {
                     if (solucion_riesgos_datos == cortocircuito) {
                         /* Los cortocircuitos desde MEM tienen prioridad sobre WB, ya
                         que la instruccion que hay en MEM es mas moderna */
-                        
+
                         /* WBtoEX */
-                        
+
               /* INSERTAR CÓDIGO */
 
                         /* if (...) {
@@ -380,7 +401,7 @@ dword mux_ALUinf(dword rb, dword imm, dword mem, dword wb) {
                          */
 
                         /* MEMtoEX */
-                        
+
               /* INSERTAR CÓDIGO */
 
                         /* if (...) {
@@ -439,7 +460,7 @@ dword mux_COMPsup(dword ra, dword mem, dword wb, dword fpsr_wb) {
             case OP_BNE:
             case OP_BEQ:
                 /* MEMtoEX */
-                
+
                 /* WBtoEX */
                                 break;
             case OP_BC1F:
@@ -483,7 +504,7 @@ dword mux_COMPinf(dword rb, dword mem, dword wb) {
             case OP_BNE:
             case OP_BEQ:
                 /* MEMtoEX */
-                
+
                 /* WBtoEX */
                                 break;
             default:
@@ -692,10 +713,10 @@ void detectar_riesgos_datos(void) {
 
     switch (solucion_riesgos_datos) {
         case parada:
-            /* Riesgo entre EX e ID */            
+            /* Riesgo entre EX e ID */
               /* INSERTAR CÓDIGO ALUMNO*/
-		
-		if (escribe_Rdst(ID_EX.IR)  && 
+
+		if (escribe_Rdst(ID_EX.IR)  &&
 			(lee_Rfte1(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
 			(lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2)))
             {
@@ -703,13 +724,13 @@ void detectar_riesgos_datos(void) {
                 IDstall = SI;
 		}
 
-            /* Riesgo entre MEM e ID */            
+            /* Riesgo entre MEM e ID */
               /* INSERTAR CÓDIGO ALUMNO*/
-		
-		if (escribe_Rdst(EX_MEM.IR)  && 
+
+		if (escribe_Rdst(EX_MEM.IR)  &&
 			(lee_Rfte1(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
 			(lee_Rfte2(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente2))) {
-		
+
                 IFstall = SI;
                 IDstall = SI;
 		}
@@ -725,7 +746,7 @@ void detectar_riesgos_datos(void) {
                     ...
             }
              */
-            
+
               /* INSERTAR CÓDIGO */
 
 

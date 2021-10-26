@@ -76,7 +76,7 @@ void swap( Byte a1[],Byte a2[],int rw,int rh,int w ) {
   if ( a1 != a2 ) {
     rw *= 3; w *= 3; // Each pixel is 3 bytes
     
-   #pragma omp parallel for private(x, d, aux) schedule(runtime)
+   #pragma omp parallel for private(x, d, aux)
     for ( y = 0 ; y < rh ; y++ ) {
       // Swap line y of the two rectangles
       d = w * y;
@@ -103,7 +103,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     min = INT_MAX; my = y;
     // Blocks up to line y-1 are already placed
     // Find the block whose first line minimizes the difference with line y-1
-   #pragma omp parallel for private (d) schedule(runtime)
+   #pragma omp parallel for private (d)
     for ( y2 = y ; y2 < h ; y2 += bh ) {
       d = distance( w, A(a,0,y-1,w), A(a,0,y2,w), 1 );
       if ( d < min ) {
@@ -123,7 +123,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     // Blocks up to column x-1 are already placed
     // Find the block whose first column minimizes the difference with column x-1
     min = INT_MAX; mx = x;
-    #pragma omp parallel for private (d) schedule(runtime)
+    #pragma omp parallel for private (d)
     for ( x2 = x ; x2 < w ; x2 += bw ) {
       d = distance( h, A(a,x-1,0,w), A(a,x2,0,w), w );
       if ( d < min ) { 

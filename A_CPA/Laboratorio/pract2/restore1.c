@@ -56,7 +56,7 @@ int distance( int n, Byte a1[], Byte a2[], int stride )
 { int d,i,j, r,g,b;
   stride *= 3;
   d = 0;
- #pragma omp parallel for reduction(+:d) 
+ #pragma omp parallel for reduction(+:d) schedule(runtime)
   for ( i = 0 ; i < n ; i++ ) {
     j = i * stride;
     r = (int)a1[j]   - a2[j];   if ( r < 0 ) r = -r;  // Difference in red
@@ -77,7 +77,7 @@ void swap( Byte a1[],Byte a2[],int rw,int rh,int w ) {
   if ( a1 != a2 ) {
     rw *= 3; w *= 3; // Each pixel is 3 bytes
     
-   #pragma omp parallel for private(x, d, aux)
+   #pragma omp parallel for private(x, d, aux) schedule(runtime)
     for ( y = 0 ; y < rh ; y++ ) {
       // Swap line y of the two rectangles
       d = w * y;

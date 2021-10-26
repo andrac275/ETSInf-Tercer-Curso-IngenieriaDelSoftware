@@ -3,8 +3,9 @@ i hem executat amb "./restore0 -i peque.ppm -o pequeOut.ppm -b 8", el temps ha s
 que s'executa amb "./restore0 -i grande.ppm -o grandeOut.ppm -b 2", el temps ha sigut de 57.22. 
 Utilitzarem aquestos temps del algorisme secuencial com a referencia per comparar amb les versions paral·leles. 
 
-Exercici 1:
-Per a la primera versió que demana el document anomenada restore1.c, cal paralelitzar les funcions distance i swap. 
+
+1.Desenvolupament de les versions paral·leles:
+Per a la primera versió (exercici 1) que demana el document anomenada restore1.c, cal paralelitzar les funcions distance i swap. 
 
 	Per a la funció distance paralelitzem l'unic bucle que conté amb la directiva "#pragma omp parallel for reduction(+:d)". 
 	El fragment de codi es el següent:
@@ -16,7 +17,7 @@ Per a la primera versió que demana el document anomenada restore1.c, cal parale
 			b = (int)a1[j+2] - a2[j+2]; if ( b < 0 ) b = -b;  // Difference in blue
 			d += r + g + b;
 		  }
-	Hem escollit fer un reduction de la variable 'd' perque es una variable que acumula en cada iteració i es retorna 'd' després del bucle.
+	Hem escollit fer un reduction de la variable 'd' perque es una variable que acumula en cada iteració els diferents fils i es retorna el valor de 'd' sumat després del bucle.
 
 
 	Per a la funció swap, s'ha paralelitzat el bucle extern 'y'.
@@ -35,17 +36,17 @@ Per a la primera versió que demana el document anomenada restore1.c, cal parale
 	Hem fet privada la variable del bucle intern 'x' ja que s'utilitza per a càlculs interns de la posició del vector i cada fil necessita la seva pròpia còpia,
 	a més, la 'd' perque varia segons la iteració de la 'y' i finalment la variable 'aux' del bucle intern.
 		
-	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següents temps:
-		-Per a la imatge gran s'ha obtés el temps de:
-	Hem realitzat una comprovació de la imatge resultant amb la referència obtinguda en la versió secuencial i coincideixen. "cmp grandeRef.ppm grandeOut_1.ppm"
+	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següents temps per a la imatge gran (amb 16 fils): XXXXXXXXX front als 57,22 de la sequencial. Això implica una acceleració de XXXX/57,22 = YYY gràcies a la paral·lelització.
+
+	Hem realitzat una comprovació amb el comandament 'cmp' utilitzant la imatge resultant i la referència obtinguda en la versió secuencial i coincideixen. "cmp grandeRef.ppm grandeOut_1.ppm"
 	
 	
 	
-Exercici 2:
-Per a la segona versió que demana el document anomenada restore2.c, cal paralelitzar la funcio principal 'process', junt a la funció 'swap' ja paralelitzada en la 
+
+Per a la segona versió (exercici 2) que demana el document anomenada restore2.c, cal paralelitzar la funcio principal 'process', junt a la funció 'swap' ja paralelitzada en la 
 versió anterior i cal desparalelitzar 'distance'.
 
-	Els bucles 'x' i 'y' externs no se poden paral.lelitzar perque la iteració actual depén del resultat de la iteració anterior. En canvi paralelitzarem els bucles
+	En quant a la funció 'process', els bucles 'x' i 'y' externs no se poden paral.lelitzar perque la iteració actual depén del resultat de la iteració anterior. En canvi paralelitzarem els bucles
 	interns 'y2' i 'x2' amb la directiva de pragma corresponent. Quedant així:
 		#pragma omp parallel for private (d)
 		for ( y2 = y ; y2 < h ; y2 += bh ) {
@@ -74,15 +75,52 @@ versió anterior i cal desparalelitzar 'distance'.
 	'my' i 'mx' com a privades perquè se actualitzen de una manera atòmica; la variable 'min' tampoc és necessari possar-la privada perquè s'executa el bucle 'x' una
 	vegada ha acabat el bucle 'y'.
 	
-	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següents temps:
-		-Per a la imatge gran s'ha obtés el temps de:
-	Hem realitzat una comprovació de la imatge resultant amb la referència obtinguda en la versió secuencial i coincideixen. "cmp grandeRef.ppm grandeOut_2.ppm"
+	Després de realitzar els canvis en el fitxer, s'ha compilat i executat el codi i s'ha obtés els següent temps per a la imatge gran (amb 16 fils): XXXXXXXXX front als 57,22 de la sequencial. Això implica una acceleració de XXXX/57,22 = YYY gràcies a la paral·lelització.
+	
+	Hem realitzat una comprovació de la imatge resultant amb la referència obtinguda en la versió secuencial i coincideixen mitjançant 'cmp'. "cmp grandeRef.ppm grandeOut_2.ppm"
 
+
+2.Estudi de prestacions:
 Exercici 3:
-	
-	
-Exercici 4:
+Respondre raonadament a: 
+-Per a la paralelització del bucle 'y2' de process, creus que amb alguna planificació s'obtendria un millor equilibri de càrrega que amb un altra? Si/no? Quins? Per què?
 
+-Suposant que 'y' de process se puguera paral·lelitzar, creus que amb alguna planificació s'obtendria un millor equilibri de càrrega que amb un altra? Si/no? Quins? Per què?
+
+3.Avaluació de les prestacions amb el Kahan:
+Exercici 4:
+Anem a realitzar diverses proves amb el Kahan per a les dos versions paral·les que hem desenvolupat, restore1 i restore2, amb utilitzant diferents configuracions. Per a ambdos casos utilitzem 16 fils.
+-Per una banda proves amb restore1:
+	-Per a una planificació estàtica (static) amb chunk per defecte:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=static ./restore1 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	-Per a una planificació amb tamany de chunk 1 també estàtica:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=static,1 ./restore1 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	-Finalment amb una dinàmica (dynamic) i chunk per defecte:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=dynamic ./restore1 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	Conclusions:
+		XXXXXXXXXXXXXXXXXXXXXX
+
+-Per l'altra banda proves amb restore 2:
+	-Per a una planificació estàtica (static) amb chunk per defecte:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=static ./restore2 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	-Per a una planificació amb tamany de chunk 1 també estàtica:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=static,1 ./restore2 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	-Finalment amb una dinàmica (dynamic) i chunk per defecte:
+		-El comandament del treball del Kahan es: OMP_NUM_THREADS=16 OMP_SCHEDULE=dynamic ./restore2 -i grande.ppm -o grandeOut_1.ppm -b 2
+		-Sobté un temps de:
+
+	Conclusions:
+		XXXXXXXXXXXXXXXXXXXXXX
 
 Exercici 5:
 

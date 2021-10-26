@@ -1,33 +1,31 @@
+cat slurm-5487.out slurm-5489.out slurm-5491.out 
 
----
 Fichero restore 1 imagen Grande
 STATIC
 Numero de hilos paralelos: 16
-restore1. Tiempo: 127.22
-
+restore1. Tiempo: 129.16
+Fichero restore 1 imagen Grande
 STATIC CHUNK 1
 Numero de hilos paralelos: 16
-restore1. Tiempo: 242.61
-
-DINAMYC
-Numero de hilos paralelos: 16
-restore1. Tiempo: 124.89
-
+restore1. Tiempo: 225.71
+Fichero restore 1 imagen Grande
+DYNAMIC
+slurmstepd-kahan01: error: *** JOB 5491 ON kahan01 CANCELLED AT 2021-10-26T15:13:08 DUE TO TIME LIMIT ***
 
 
 ---
 
-Fichero restore 2 imagen Grande
+cat slurm-5492.out 
 
 Fichero restore 2 imagen Grande
 STATIC
 Numero de hilos paralelos: 16
-restore2. Tiempo: 5.84
+restore2. Tiempo: 5.49
 STATIC CHUNK 1
 Numero de hilos paralelos: 16
-restore2. Tiempo: 8.21
+restore2. Tiempo: 8.66
 DYNAMIC
 Numero de hilos paralelos: 16
-restore2. Tiempo: 8.44
+restore2. Tiempo: 8.43
 
  

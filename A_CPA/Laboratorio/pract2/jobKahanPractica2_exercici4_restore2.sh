@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --time=10:00
+#SBATCH --time=5:00
 #SBATCH --partition=cpa
 
 #Probar 'static', 'static,1' i 'dynamic'

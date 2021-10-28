@@ -302,47 +302,48 @@ dword mux_ALUsup(dword npc, dword ra, dword mem, dword wb) {
                 case cortocircuito:
                     /* Los cortocircuitos desde MEM tienen prioridad sobre WB, ya
                        que la instruccion que hay en MEM es mas moderna */
-                                        /* WBtoEX */
-
-              /* INSERTAR CÓDIGO ALUMNO*/
-
-                    /* if (...) {
-                            ...
+                                        
+                    /* INSERTAR CÓDIGO ALUMNO*/
+                    /* WBtoEX */
+                    //Insertar cp si és un load i hi ha dependencia
+                    if (es_load(ID_EX.IR) &&
+                        (lee_Rfte1(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
+                        (lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2)))  {
+                            IFstall = SI;
+                            IDstall = SI;
+                    }
+                
+                    //Si no hi ha una load abans, comprobar directament per veure si se pot fer el curtciruit.
+                    if (escribe_Rdst(MEM_WB.IR)) {                      
+                        if (lee_Rfte1(ID_EX.IR) && (MEM_WB.IR.Rdestino == ID_EX.IR.Rfuente1)) {                          
+                            ID_EX.Ra = MEM_WB.ALUout;
                             WBaEXalu_s = SI;
                             result = wb;
                         }
-                     */
-                     if (escribe_Rdst(MEM_WB.IR)) {
-                        if (lee_Rfte1(ID_EX.IR) && (MEM_WB.IR.Rdestino == ID_EX.IR.Rfuente1)) {
-                           ID_EX.Ra = EX_MEM.ALUout;
-                        }
+
                         if (lee_Rfte2(ID_EX.IR) && (MEM_WB.IR.Rdestino == ID_EX.IR.Rfuente2)) {
-                           ID_EX.Ra = EX_MEM.ALUout;
+                            ID_EX.Rb = MEM_WB.ALUout;
+                            WBaEXalu_s = SI;
+                            result = wb;
                         }
-                        WBaEXalu_s = SI;
-                        result = wb;
                     }
 
+                    /* INSERTAR CÓDIGO ALUMNO*/
                     /* MEMtoEX */
 
+                    if (escribe_Rdst(EX_MEM.IR)) {
 
-              /* INSERTAR CÓDIGO ALUMNO*/
-
-                    /* if (...) {
-                            ...
+                        if (lee_Rfte1(ID_EX.IR) && (EX_MEM.IR.Rdestino == ID_EX.IR.Rfuente1)) {
+                            ID_EX.Ra = EX_MEM.ALUout;
                             MEMaEXalu_s = SI;
                             result = mem;
                         }
-                     */
-                     if (escribe_Rdst(EX_MEM.IR)) {
-                        if (lee_Rfte1(ID_EX.IR) && (EX_MEM.IR.Rdestino == ID_EX.IR.Rfuente1)) {
-                           ID_EX.Ra = EX_MEM.ALUout;
-                        }
+
                         if (lee_Rfte2(ID_EX.IR) && (EX_MEM.IR.Rdestino == ID_EX.IR.Rfuente2)) {
                             ID_EX.Rb = EX_MEM.ALUout;
-                        }
-                        MEMaEXalu_s = SI;
-                        result = mem;
+                            MEMaEXalu_s = SI;
+                            result = mem;
+                        }     
                     }
                     break;
             }
@@ -714,29 +715,28 @@ void detectar_riesgos_datos(void) {
     switch (solucion_riesgos_datos) {
         case parada:
             /* Riesgo entre EX e ID */
-              /* INSERTAR CÓDIGO ALUMNO*/
+            /* INSERTAR CÓDIGO ALUMNO*/
 
-		if (escribe_Rdst(ID_EX.IR)  &&
-			(lee_Rfte1(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
-			(lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2)))
-            {
-                IFstall = SI;
-                IDstall = SI;
-		}
+            if (escribe_Rdst(ID_EX.IR)  &&
+                (lee_Rfte1(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
+                (lee_Rfte2(IF_ID.IR) && (ID_EX.IR.Rdestino == IF_ID.IR.Rfuente2))){
+
+                    IFstall = SI;
+                    IDstall = SI;
+            }
 
             /* Riesgo entre MEM e ID */
               /* INSERTAR CÓDIGO ALUMNO*/
 
-		if (escribe_Rdst(EX_MEM.IR)  &&
-			(lee_Rfte1(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
-			(lee_Rfte2(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente2))) {
+		    if (escribe_Rdst(EX_MEM.IR)  &&
+			    (lee_Rfte1(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente1)) ||
+			    (lee_Rfte2(IF_ID.IR) && (EX_MEM.IR.Rdestino == IF_ID.IR.Rfuente2))) {
 
                 IFstall = SI;
                 IDstall = SI;
-		}
+		    }
 
             break;
-
 
 
         case cortocircuito:
@@ -750,7 +750,7 @@ void detectar_riesgos_datos(void) {
               /* INSERTAR CÓDIGO */
 
 
-                        break;
+            break;
         default:
             break;
 

@@ -113,12 +113,22 @@ void fase_busqueda(
                         break;
 
         case pnt3:
+  /* INSERTAR CÓDIGO ALUMNO */
             
-              /* INSERTAR CÓDIGO */
+            if (EX_MEM.cond) {
+            SaltoEfectivo = SI;
+            PCn = EX_MEM.ALUout;
 
+            }
+            else PCn = PC + 4;
+            
+            
             break;
 
         case pnt2:
+ 
+            else PCn = PC + 4;
+
                         break;
 
         case pnt1:

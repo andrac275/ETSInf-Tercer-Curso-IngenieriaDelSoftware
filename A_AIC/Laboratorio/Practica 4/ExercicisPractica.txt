@@ -1,0 +1,25 @@
+1.Loop unrolling
+
+Pregunta1: programa dapy.c
+Instruccions: 4 inst fora i 7 inst en el bucle
+Cicles: 1 cicle de dades, 1 cicle de control, 3 cicles de la add.d (perque la s.d escriu en Mem)
+CPI: (4+(60*7) + (5*60)) / (7*60 + 4) = 1,71
+
+Pregunta2: programa dapyu.c	Al ser 4 les replicacions es 60/4=15 iteracions
+Instruccions: 4 inst fora i 16 inst en el bucle
+Cicles parada(per iteracio): 4 cicles de dades, 3*4=12 del add.d i 1 de control
+CPI: (4+(16*15) + ((4+12+1)*15)) / (16*15 + 4) = 2,045
+
+Pregunta3: programa dapyuo.c
+Instruccions: 4 inst fora i 16 inst en el bucle
+Cicles parada(per iteracio): 0 de dades, 0 del add.d i 1 de control
+CPI:(4+(16*15) + ((1)*15)) / (16*15 + 4) = 1,061
+
+################
+2.Software pipelining:
+
+Pregunta1: programa dapysp.c
+Instruccions: 4 inst fora bucle, 4 inst 'prepara', 7*58 inst bucle i 4 inst 'resto' (el trap conta)
+	//El bucle son 58 perque plenar i buidar el pipeline suma el 60
+Cicles parada: 1 en prepara, 1 de control en el bucle (1*60 = 60)
+CPI:(4+4(7*58)+4 + ((1*58)+1+1+3)) / (4+4+(7*58)+4) = 1,15

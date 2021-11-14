@@ -66,6 +66,17 @@ int distance( int n, Byte a1[], Byte a2[], int stride )
   return d;
 }
 
+// MARC
+#define MAX_FILS 64
+// Array amb els contadors de cada fil (màxim de 64 fils)
+int contadors[MAX_FILS];
+// Per a només mprimir una vegada, array per a comprovar cada fil
+int imprimits[MAX_FILS];
+// array de distancies inicials
+int minims[MAX_FILS];
+// array de distancies finals
+int maxims[MAX_FILS];
+
 // Swap two rectangles (a1 and a2) of an image. 
 // rw and rh define the width and height of both rectangles
 // w is the width of the complete image that contains the rectangles
@@ -76,7 +87,7 @@ void swap( Byte a1[],Byte a2[],int rw,int rh,int w ) {
   if ( a1 != a2 ) {
     rw *= 3; w *= 3; // Each pixel is 3 bytes
     
-   #pragma omp parallel for private(x, d, aux)
+   #pragma omp parallel for private(x, d, aux) schedule(runtime)
     for ( y = 0 ; y < rh ; y++ ) {
       // Swap line y of the two rectangles
       d = w * y;
@@ -103,19 +114,46 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     min = INT_MAX; my = y;
     // Blocks up to line y-1 are already placed
     // Find the block whose first line minimizes the difference with line y-1
-   #pragma omp parallel for private (d)
+   #pragma omp parallel for private (d) schedule(runtime)
     for ( y2 = y ; y2 < h ; y2 += bh ) {
       d = distance( w, A(a,0,y-1,w), A(a,0,y2,w), 1 );
+
+      // MARC
+      // Entra si és zero (per a que no es quede a zero)
+      if (!minims[omp_get_thread_num()] || d < minims[omp_get_thread_num()]) {
+      minims[omp_get_thread_num()] = d;
+      }
+
+      if (d > maxims[omp_get_thread_num()]) {
+      maxims[omp_get_thread_num()] = d;
+      }
+      //
+
       if ( d < min ) {
           #pragma omp critical
           if ( d < min ) {
             min = d; my = y2;
           } 
-      } 
+      }
+      // MARC
+      // Augmentar nombre iteracions per a cada fil
+      contadors[omp_get_thread_num()]++;
     }
     // Block starting at line my minimizes the difference
     // Place the block in its place by swapping it with the block starting at line y
     swap( A(a,0,y,w),A(a,0,my,w),w,bh,w );
+
+    // MARC
+    #pragma omp parallel
+    {
+      if (!imprimits[omp_get_thread_num()]) {
+        printf("Fil %d: %d iteracions amb distancies entre %d i %d\n",
+              omp_get_thread_num(), contadors[omp_get_thread_num()],
+              minims[omp_get_thread_num()], maxims[omp_get_thread_num()]
+        );
+      }
+      imprimits[omp_get_thread_num()] = 1;
+    }
   }
 
   // Place each vertical block to minimize difference with previous one
@@ -123,7 +161,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     // Blocks up to column x-1 are already placed
     // Find the block whose first column minimizes the difference with column x-1
     min = INT_MAX; mx = x;
-    #pragma omp parallel for private (d)
+    #pragma omp parallel for private (d) schedule(runtime)
     for ( x2 = x ; x2 < w ; x2 += bw ) {
       d = distance( h, A(a,x-1,0,w), A(a,x2,0,w), w );
       if ( d < min ) { 
@@ -143,6 +181,16 @@ int main(int argc,char *argv[]) {
   char option,*s, *in = "re.ppm", *out = "out.ppm";
   int i, w,h, bw=16,bh=16;
   Byte *a;
+
+  // MARC
+  // Inicialitzar tot a 0
+  #pragma omp parallel
+  {
+    contadors[omp_get_thread_num()] = 0;
+    imprimits[omp_get_thread_num()] = 0;
+    minims[omp_get_thread_num()] = 0;
+    maxims[omp_get_thread_num()] = 0;
+  }
 
   for ( i = 1 ; i < argc ; i++ ) {
     if ( argv[i][0] != '-' ) { option = argv[i][0]; s = &argv[i][1]; }

@@ -37,13 +37,34 @@ start:
 loop:   
         ;ANDREU: Cal fer Z=a*X+Y
 	l.d f1,0(r1)   ;Cargar el valor del vector X
+	l.d f5,8(r1)
+	l.d f7,16(r1)
+	l.d f9,24(r1)
+
         l.d f2,0(r2)   ;Cargar el valor del vector Y
+	l.d f6,8(r2)
+	l.d f8,16(r2)
+ 	l.d f10,24(r2)
+
 	mul.d f3,f1,f0        ;Multiplicar a*X
+	mul.d f11,f5,f0        ;Multiplicar a*X
+	mul.d f12,f7,f0        ;Multiplicar a*X
+	mul.d f13,f9,f0        ;Multiplicar a*X
+
         add.d f4,f2,f3 ;Sumarli a lo anterior la Y-> a*X+Y
+        add.d f14,f6,f11 ;Sumarli a lo anterior la Y-> a*X+Y
+        add.d f15,f8,f12 ;Sumarli a lo anterior la Y-> a*X+Y
+        add.d f16,f10,f13 ;Sumarli a lo anterior la Y-> a*X+Y
+
+
         s.d f4,0(r3)   ;Guardar en memoria en Z
-        dadd r1,r1,#8  ;Avançar punter x
-        dadd r2,r2,#8  ;Avançar punter y
-        dadd r3,r3,#8  ;Avançar punter z
+        s.d f14,8(r3)   ;Guardar en memoria en Z
+        s.d f15,16(r3)   ;Guardar en memoria en Z
+        s.d f16,24(r3)   ;Guardar en memoria en Z
+
+        dadd r1,r1,#32  ;Avançar punter x
+        dadd r2,r2,#32  ;Avançar punter y
+        dadd r3,r3,#32  ;Avançar punter z
         dsub r5,r4,r1  ;Llevar una iteracio
         bnez r5,loop
 

@@ -66,7 +66,7 @@ int distance( int n, Byte a1[], Byte a2[], int stride )
   return d;
 }
 
-// MARC
+// Exercici 6
 #define MAX_FILS 64
 // Array amb els contadors de cada fil (màxim de 64 fils)
 int contadors[MAX_FILS];
@@ -118,7 +118,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     for ( y2 = y ; y2 < h ; y2 += bh ) {
       d = distance( w, A(a,0,y-1,w), A(a,0,y2,w), 1 );
 
-      // MARC
+      // Exercici 6
       // Entra si és zero (per a que no es quede a zero)
       if (!minims[omp_get_thread_num()] || d < minims[omp_get_thread_num()]) {
       minims[omp_get_thread_num()] = d;
@@ -135,7 +135,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
             min = d; my = y2;
           } 
       }
-      // MARC
+      // Exercici 6
       // Augmentar nombre iteracions per a cada fil
       contadors[omp_get_thread_num()]++;
     }
@@ -143,7 +143,7 @@ void process( int w,int h,Byte a[], int bw,int bh ) {
     // Place the block in its place by swapping it with the block starting at line y
     swap( A(a,0,y,w),A(a,0,my,w),w,bh,w );
 
-    // MARC
+    // Exercici 6
     #pragma omp parallel
     {
       if (!imprimits[omp_get_thread_num()]) {
@@ -182,7 +182,7 @@ int main(int argc,char *argv[]) {
   int i, w,h, bw=16,bh=16;
   Byte *a;
 
-  // MARC
+  // Exercici 6
   // Inicialitzar tot a 0
   #pragma omp parallel
   {

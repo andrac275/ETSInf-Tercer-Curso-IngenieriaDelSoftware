@@ -15,7 +15,7 @@ sc.on('message',(c,sep,m)=> {
 		b2.send([c,'',m])
 	}
 })
-b2.on('message',(w,sep,c,sep1,r)=> {
+b2.on('message',(c,sep,r)=> {
     workDisponible++
     if (cli.length>0) { //Enviar mes feina si hi ha en la cola
         console.log("Enviar mes feina a un worker")
@@ -26,7 +26,6 @@ b2.on('message',(w,sep,c,sep1,r)=> {
 	if (c!='') {//Si distint cadena buida es que era una resposta
         console.log("El contingut de c es: " + c)
         console.log("Retornant missatge al client amb contingut " + r)
-        //sc.send([c,'',r])
-        sc.send([w,'',c])
+        sc.send([c,'',r])
     } 
 })

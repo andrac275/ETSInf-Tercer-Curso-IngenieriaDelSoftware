@@ -1,0 +1,21 @@
+doker build -t nomImatge $path	//PEr a crear una imatge
+	Exemple: doker build -t tsr2021/ubuntu-zmq .	//El punt es el path
+
+docker images			//per a veure les images creades amb anterioritat
+
+docker run nomImatge		//Llança la execucio de un contenidor
+
+docker ps -a			//VEure el estat dels contenidors. Podem treure la idCont
+
+docker inspect idCont	//Detalls del contenidor, per veure la IP per exemple
+
+docker stop idCont	//Detindre contenidor
+
+docker rm idCont	//Borrar contenidor
+
+docker rmi idImatge	//Eliminar una imatge
+
+sudo shutdown -H
+
+Si en el DockerFile reutilitze imatges, borrar la imatge anterior per a que la refaça. Pot fallar si intentes borrar 
+una imatge i te contenidors actius. Els contenidors actius se tenen que parar abans de poder ser borrats.

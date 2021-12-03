@@ -10,10 +10,14 @@ docker ps -a			//VEure el estat dels contenidors. Podem treure la idCont
 docker inspect idCont	//Detalls del contenidor, per veure la IP per exemple
 
 docker stop idCont	//Detindre contenidor
+	docker kill $(docker ps -q)	//Pararlos tots de tiró
 
 docker rm idCont	//Borrar contenidor
+	docker rm $(docker ps -a -q)	//Borrarlos tots
 
 docker rmi idImatge	//Eliminar una imatge
+
+docker-compose up --scale cli=4 --scale wor=2
 
 sudo shutdown -H
 

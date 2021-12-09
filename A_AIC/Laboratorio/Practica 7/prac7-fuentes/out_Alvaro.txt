@@ -1,0 +1,19 @@
+n = 8, 1.024 Gflop/s
+n = 16, 2.048 Gflop/s
+n = 32, 1.986 Gflop/s
+n = 64, 1.070 Gflop/s
+n = 128, 1.070 Gflop/s
+n = 256, 1.532 Gflop/s
+n = 512, 1.288 Gflop/s
+n = 1024, 0.999 Gflop/s
+n = 2048, 0.290 Gflop/s
+
+
+ijk:	n = 1024, 0.481 Gflop/s
+ikj:	n = 1024, 0.145 Gflop/s
+jik:	n = 1024, 0.483 Gflop/s
+jki:	n = 1024, 10.857 Gflop/s
+kij:	n = 1024, 0.145 Gflop/s
+kji:	n = 1024, 7.812 Gflop/s
+
+

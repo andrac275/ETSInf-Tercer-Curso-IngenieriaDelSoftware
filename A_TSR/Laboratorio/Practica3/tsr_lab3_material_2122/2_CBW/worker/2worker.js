@@ -7,6 +7,7 @@ if (args.length < 1) {
   console.log ("node myclient brokerURL")
   process.exit(-1)
 }
+req.connect(args[0])
 var bkURL   = args[0]
 req.connect(bkURL)
 req.on('message', (c,sep,msg)=> {

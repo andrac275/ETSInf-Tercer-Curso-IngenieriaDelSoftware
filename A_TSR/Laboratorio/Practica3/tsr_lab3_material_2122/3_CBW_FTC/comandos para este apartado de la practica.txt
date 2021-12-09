@@ -1,0 +1,8 @@
+docker-compose up --scale cliA=3 --scale cliB=3 --scale cliC=3 --scale worA=2 --scale worB=2 --scale worC=2
+
+si no arranca bien el comando anterior hay que ejecutar:
+	sudo rm /etc/docker/daemon.json
+		reiniciar la maquina
+	UPDATE: Falla igualmente asi que probar con un unico client de cada i aparcado.
+	docker-compose up --scale worA=2 --scale worB=2 --scale worC=2
+	NOTA: Si solo arrancamos 1, no hace falta ponerlo como --scale. El anterior arranca un broker un cliA, un cliB i un cliC

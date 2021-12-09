@@ -9,26 +9,21 @@ void multMat_ijk( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* ijk */
     
-              /* INSERTAR CÓDIGO */
-    for (int i = 0; i < n; i++) 
-	    for (int j = 0; j < n; j++)
-		    for (int k = 0; k < n; k++)
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
+     for( i = 0; i < n; i++ )
+        for( j = 0; j < n; j++ )
+            for( k = 0; k < n; k++ )
+                C[i+j*n] += A[k+j*n]*B[i+k*n];
+
 }
 
 void multMat_ikj( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* ikj */
     
-              /* INSERTAR CÓDIGO */
-    for (int i = 0; i < n; i++) {
-	    for (int k = 0; k < n; k++) {
-		    for (int j = 0; j < n; j++) {
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
-		    }
-	    }
-    }
-  
+           for( i = 0; i < n; i++ )
+            for( k = 0; k < n; k++ )
+             for( j = 0; j < n; j++ )
+                C[i+j*n] += A[k+j*n]*B[i+k*n];
 
 }
 
@@ -36,14 +31,10 @@ void multMat_jik( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* jik */
     
-              /* INSERTAR CÓDIGO */
-    for (int j = 0; j < n; j++) {
-	    for (int i = 0; i < n; i++) {
-		    for (int k = 0; k < n; k++) {
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
-		    }
-	    }
-    }
+            for( j = 0; j < n; j++ )
+             for( i = 0; i < n; i++ )
+              for( k = 0; k < n; k++ )
+               C[i+j*n] += A[k+j*n]*B[i+k*n];
 
 }
 
@@ -51,14 +42,10 @@ void multMat_jki( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* jki */
     
-              /* INSERTAR CÓDIGO */
-    for (int j = 0; j < n; j++) {
-	    for (int k = 0; k < n; k++) {
-		    for (int i = 0; i < n; i++) {
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
-		    }
-	    }
-    }
+             for( j = 0; j < n; j++ )
+              for( k = 0; k < n; k++ )
+               for( i = 0; i < n; i++ )
+                 C[i+j*n] += A[k+j*n]*B[i+k*n];
 
 }
 
@@ -66,14 +53,10 @@ void multMat_kij( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* kij */
     
-              /* INSERTAR CÓDIGO */
-    for (int k = 0; k < n; k++) {
-	    for (int i = 0; i < n; i++) {
-		    for (int j = 0; j < n; j++) {
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
-		    }
-	    }
-    }
+           for( k = 0; k < n; k++ )
+            for( i = 0; i < n; i++ )
+             for( j = 0; j < n; j++ )
+              C[i+j*n] += A[k+j*n]*B[i+k*n];
 
 }
 
@@ -81,14 +64,10 @@ void multMat_kji( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* kji */
     
-              /* INSERTAR CÓDIGO */
-    for (int k = 0; k < n; k++) {
-	    for (int j = 0; j < n; j++) {
-		    for (int i = 0; i < n; i++) {
-			    C[i + j * n] += A[k + j * n] * B[i + k * n];
-		    }
-	    }
-    }
+         for( k = 0; k < n; k++ )
+           for( j = 0; j < n; j++ )
+            for( i = 0; i < n; i++ )
+              C[i+j*n] += A[k+j*n]*B[i+k*n];
 
 }
 

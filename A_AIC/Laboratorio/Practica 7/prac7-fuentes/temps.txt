@@ -1,0 +1,15 @@
+matrix1.c ->
+
+n = 8, 1.024 Gflop/s
+n = 16, 2.048 Gflop/s
+n = 32, 2.048 Gflop/s
+n = 64, 1.719 Gflop/s
+n = 128, 1.597 Gflop/s
+n = 256, 1.389 Gflop/s
+n = 512, 1.326 Gflop/s
+n = 1024, 1.198 Gflop/s
+n = 2048, 0.285 Gflop/s
+
+Las prestaciones para valores grandes disminuyen ya que a medida que aumenta la cantidad de datos estos ya no van cabiendo en las caches. La CPU tiene 3 niveles de cache, cada una mas grande pero mas lenta. Con matrices mas grandes se tiene que accedir a memoria succesivamente más lenta ya que no se pueden contener los datos en los niveles mas altos de cache. Con valores muy pequeños hay una disminucion de prestaciones a causa de sobrecargas con operaciones y llamadas externas.
+
+A[1 2 3 4 1 2 3 4]

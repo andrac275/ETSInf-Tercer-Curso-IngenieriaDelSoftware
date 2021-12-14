@@ -1,0 +1,6 @@
+larxiu base que ens donen es:sistbf.c
+
+sistcf.c es una copia d'aqueidx arxiu amb modificacions. Per tant eixe es  el que 
+cal mirar.
+
+els arxius *_ejer4.c son com els que no tenen ejer4 pero estos tenen comentada la linea define VERBOSE que lo que fa es mostrar coses per pantalla i se comenta perque no ralentitze.

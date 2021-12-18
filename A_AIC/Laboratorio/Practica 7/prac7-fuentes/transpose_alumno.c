@@ -6,13 +6,22 @@
 #define NMAX 8192
 #define BLOCKSIZE 8
 
+// MARC
+void transpose_block( int n, int b, int *dst, int *src) {
+    int i, j;
+    for(i = 0; i < b; i++)
+        for(j = 0; j < b; j++)
+            dst[j + i * n] = src[i + j * n];
+}
+
 void transpose_blocking( int n, int *dst, int *src ) {
     int bi,bj,i,j;
 
-    for( bi = 0; bi < n; bi += BLOCKSIZE )
-        
+    for( bi = 0; bi < n; bi += BLOCKSIZE )        
               /* INSERTAR CÓDIGO */
-
+        for( bj = 0; bj < n; bj += BLOCKSIZE)
+            transpose_block(n, BLOCKSIZE,
+                &dst[bj + bi * n], &src[bi + bj * n]);       
 }
 
 void transpose( int n, int *dst, int *src ) {

@@ -25,6 +25,7 @@ int main(int argc,char *argv[])
   }
   mypi = h * sum;
   /* Reducción: el proceso 0 obtiene la suma de todos los resultados */
+  //MPI_Reduce(sendbuffer, receivebuffer, count, datatype, operacio, root, comunicador);
   MPI_Reduce(&mypi, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
   if (myid==0) {

@@ -24,8 +24,11 @@ int main(int argc,char *argv[])
     sum += (4.0 / (1.0 + x*x));
   }
   mypi = h * sum;
-  
   /* Reducción: ANDREU utilitzant send i receive.*/ 
+  /* Andreu: Este es el original, que fa reduce*/
+  //MPI_Reduce(sendbuffer, receivebuffer, count, datatype, operacio, root, comunicador);
+  //MPI_Reduce(&mypi, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
   if(myid == 0){ //Si es el fil 0...
     pi =mypi; //Primer guardar en pi el valor que portava de la line 26
       for (i=1; i<numprocs;i++){  //Crear un receive per a cada altre proces.

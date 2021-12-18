@@ -33,11 +33,11 @@ int main(int argc,char *argv[])
      the same array. */
      for(int i=0; i<NREPS;i++){
         if(myid==0){
-           MPI_Send(&n,1,MPI_INT,1,275,MPI_COMM_WORLD);
-           MPI_Recv(&n,1,MPI_INT,1,280,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+           MPI_Send(&n,1,MPI_BYTE,1,275,MPI_COMM_WORLD);
+           MPI_Recv(&n,1,MPI_BYTE,1,280,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
         }else if(myid==1){
-           MPI_Recv(&n,1,MPI_INT,0,275,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-           MPI_Send(&n,1,MPI_INT,0,280,MPI_COMM_WORLD);
+           MPI_Recv(&n,1,MPI_BYTE,0,275,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+           MPI_Send(&n,1,MPI_BYTE,0,280,MPI_COMM_WORLD);
         }
      }
 

@@ -349,15 +349,15 @@ int main(int argc, char *argv[])
   //MPI_Scatter(A[0], mb * n, MPI_DOUBLE, 
   //  Aloc[0], mb * n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-/*ANDREU: Aci cal repartir la matriu. Se reparteix en un bucle perque cal fer 4 scatters.
-mb*n es 4 x 12 = 48. 48 elements que se envien.
-La idea aci es fer 4 scatters de 1 fila amb un bucle*/
-for (int i = 0; i < mb; i ++){ //mb es k Aleshores com k es 4, fa 4 scatters
-  /*Envia n elements cada scatter respecte al original que enviaba*/
-  //n*p*i
-  MPI_Scatter(A[p*i], n, MPI_DOUBLE,
-              Aloc[i], n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-}
+  /*ANDREU: Aci cal repartir la matriu. Se reparteix en un bucle perque cal fer 4 scatters.
+  mb*n es 4 x 12 = 48. 48 elements que se envien.
+  La idea aci es fer 4 scatters de 1 fila amb un bucle*/
+  for (int i = 0; i < mb; i ++){ //mb es k Aleshores com k es 4, fa 4 scatters
+    /*Envia n elements cada scatter respecte al original que enviaba*/
+    //n*p*i
+    MPI_Scatter(A[p*i], n, MPI_DOUBLE,
+                Aloc[i], n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  }
 
   temps_Fi = MPI_Wtime(); // Andreu: Acabar de medir
 

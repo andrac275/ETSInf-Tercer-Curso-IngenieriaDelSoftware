@@ -163,13 +163,13 @@ int printVec(double *ppdVec, int n, char *header)
   return printMat1D(ppdVec, 1, n, header);
 }
 
-/* Returns the process that owns row i */
+/* Andreu: Returns the process that owns row i */
 int owner(int i, int p, int mb) {
    /* Block distribution */
    return i/mb;
 }
 
-/* Returns the local index of row i in the local matrix of its owner process */
+/* Andreu: Returns the local index of row i in the local matrix of its owner process */
 int localIndex(int i, int p, int mb) {
    /* Block distribution */
    return i%mb;

@@ -202,6 +202,7 @@ int main(int argc, char *argv[])
 
     //Andreu: A partir de aci la versio amb comunicacion Esta unica linea sustitueix totes
     //les anteriors.
+    //MPI_Allgather(sendbuf, sendcount, sendtype, recvbuf,recvcount, recvtype, comm)
     MPI_Allgather(xloc, mb, MPI_DOUBLE, x,mb,MPI_DOUBLE,MPI_COMM_WORLD);
   } /* end of the iter loop */
 
@@ -227,6 +228,7 @@ int main(int argc, char *argv[])
   //Andreu: Esta linea substitueix les linies anteriors del codi base.
   //Els procesos envien 'norma' i el proces 0 ho acumula en aux, per tant el resultat esta en aux, cal passarho
   //a la variable norm. Linea 235
+  //MPI_Reduce(sendbuf, recvbuf, count, datatype, op, root,comm)
   MPI_Reduce(&norma, &aux,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   
   t = MPI_Wtime() - t;

@@ -21,5 +21,9 @@ docker-compose up --scale cli=4 --scale wor=2
 
 sudo shutdown -H
 
+docker exec -it 2_cbw_bro_1 /bin/bash esto es para entrar al contenedor y hacer cosas por comando
+
+Ctrl+R	Busqueda reversa de comandos en la consola
+
 Si en el DockerFile reutilitze imatges, borrar la imatge anterior per a que la refaça. Pot fallar si intentes borrar 
 una imatge i te contenidors actius. Els contenidors actius se tenen que parar abans de poder ser borrats.

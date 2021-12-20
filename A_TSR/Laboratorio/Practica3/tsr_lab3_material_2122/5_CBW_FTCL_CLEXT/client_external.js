@@ -21,6 +21,7 @@ req.identity = myID
 req.connect(bkURL)
 
 req.on('message', (msg) => {
+  console.log("missatge rebut" + nMsgs)
   if (--nMsgs == 0) process.exit(0)
   else req.send([myMsg,cid])
 })

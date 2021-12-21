@@ -1,0 +1,12 @@
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\TarongISWLib.dll.config
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\TarongISWLib.dll
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\TarongISWLib.pdb
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\EntityFramework.dll
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\EntityFramework.xml
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\obj\Debug\TarongISWLib.csproj.AssemblyReference.cache
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\obj\Debug\TarongISWLib.csproj.CoreCompileInputs.cache
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\obj\Debug\TarongISWLib.csproj.CopyComplete
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\obj\Debug\TarongISWLib.dll
+C:\Users\Andrac\Desktop\projecteISW\ProyectoPracticas\ClassLibrary\obj\Debug\TarongISWLib.pdb

@@ -1,0 +1,7 @@
+mod INC-DEC is
+	protecting INT .
+	op _+- : Int -> Int .
+	var N : Int .
+	rl N +- => N + 1 .
+	rl N +- => N - 1 .
+endm

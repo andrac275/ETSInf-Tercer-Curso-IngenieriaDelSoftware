@@ -1,0 +1,11 @@
+mod VEND-MACHINE is
+	sorts State ConfSys .
+	ops $ t c : -> State .
+	op null : -> State .
+	op _ _ : State State -> State [assoc comm id: null] .
+	op [_|_|_] : State State State -> ConfSys .
+	vars B C M : State .
+	rl [insert-$] : [ B | C | M $ ] => [ B | C $ | M ] .
+	rl [get-t] : [ B t | C $ | M ] => [ B $ | C | M t ] .
+	rl [get-c] : [ B c | C $ $ | M ] => [ B $ $ | C | M c ] .
+endm

@@ -1,0 +1,7 @@
+fmod FACT is
+	protecting NAT .
+	op _! : Nat -> Nat .
+	var N : Nat .
+	eq 0 ! = 1 . --- factorial de N=0 es 1
+	eq N ! = (sd(N,1))! * N [owise] . --- factorial de N>0 es N*factorial de N-1
+endfm

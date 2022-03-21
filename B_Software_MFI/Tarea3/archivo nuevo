@@ -1,0 +1,8 @@
+Pregunta 2
+search in VEND-MACHINE : [c c t t | null | $ $ $ $ $ $] =>* [S:State | null | S:State] .
+
+Pregunta 3
+search in VEND-MACHINE : [c c | null | $ $ $ $] =>* [S1:State | c S2:State | S3:State] .	NO SOLUTION
+search in VEND-MACHINE : [c c | null | $ $ $ $] =>* [c c | c | $ $ $ $] . NO SOLUTION
+search in VEND-MACHINE : [c c | null | $ $ $ $] =>* [S1:State | c c | S2:State] . NO SOLUTION
+search in VEND-MACHINE : [c c | null | $ $ $ $] =>* [null | $ $ $ $ c c | null ] . NO SOLUTION

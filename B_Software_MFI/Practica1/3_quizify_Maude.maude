@@ -1,0 +1,35 @@
+fmod QUIZIFY-MAUDE is
+	protecting NAT .
+
+	sorts Opt Opt? .
+	op ? : -> Opt? [ctor] .
+	ops A B C D : -> Opt [ctor] .
+	subsort Opt < Opt? .
+	
+	sorts OptNat Opt?Nat .
+	subsort OptNat < Opt?Nat .
+	op _<_> : Opt Nat -> OptNat [prec 10] .
+	op _<_> : Opt? Nat -> Opt?Nat [prec 10] .
+	
+	sorts OptNatList Opt?NatList .
+	subsort OptNatList < Opt?NatList .
+	op nil : -> OptNatList [ctor] .
+	subsort OptNat < OptNatList .
+	subsort Opt?Nat < Opt?NatList .
+	op _@_ : OptNatList OptNatList -> OptNatList [ctor assoc id: nil] .
+	op _@_ : Opt?NatList Opt?NatList -> Opt?NatList [ctor assoc id: nil] .
+	
+	var L : OptNatList . vars N M : Nat . var L? : Opt?NatList .
+	
+	op add : Opt?NatList Nat -> Opt?NatList .
+	eq add(L?,N) = L? @ ? < N > .
+	
+	op first? : Opt?NatList ~> Nat .
+	eq first?(L @ ? < N > @ L?) = N .
+	
+	var P : OptNatList .
+	op prueba : OptNatList Nat ~> Nat .
+	eq prueba(P,N) = N .
+	
+
+endfm

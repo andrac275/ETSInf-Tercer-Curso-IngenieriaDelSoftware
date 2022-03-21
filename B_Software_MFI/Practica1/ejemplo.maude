@@ -1,0 +1,24 @@
+fmod QUIZIFY-HASKELL is
+	protecting NAT .
+		
+	sorts Caca Pikachu Pepe .	
+	
+	ops A B C D ? Rerere: -> Pepe [ctor] .
+	op _<_> : Pepe Nat -> Caca [ctor] .
+	op nil : -> Pikachu [ctor] .
+	op _@_ : Caca Pikachu -> Pikachu [ctor] .
+		
+	var L : Pikachu . vars N M : Nat . var O : Pepe .
+			
+	op add : Pikachu Nat -> Pikachu .
+	eq add(nil,N) = ? < N > @ nil .
+	eq add(O < M > @ L,N) = O < M > @ add(L,N) .	
+	
+	op first? : Pikachu ~> Nat .
+	
+	eq first?(? < N > @ L) = N .
+	eq first?(A < N > @ L) = first?(L) .
+	eq first?(B < N > @ L) = first?(L) .
+	eq first?(C < N > @ L) = first?(L) .
+	eq first?(D < N > @ L) = first?(L) .
+endfm

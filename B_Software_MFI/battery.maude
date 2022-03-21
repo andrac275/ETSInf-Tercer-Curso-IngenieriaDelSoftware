@@ -1,0 +1,51 @@
+mod BATTERY-TASK is
+	pr NAT .
+	
+	sorts ECell Cell EBattery Battery .
+	
+	subsorts ECell < Cell < Battery .
+	subsorts ECell < EBattery < Battery .
+	
+	op o : -> Cell [ctor] .
+	op + : -> Cell [ctor] .
+	op - : -> ECell [ctor] .
+	
+	op nil : -> EBattery [ctor] .
+	op __ : EBattery EBattery -> EBattery [ctor assoc comm id: nil] .
+	op __ : Battery Battery -> Battery [ctor assoc comm id: nil] .
+	
+	var C : Cell .
+	var EB : EBattery .
+	vars B B1 B2 : Battery .
+	
+	op is-empty : Battery -> Bool .
+	eq is-empty(EB) = true .
+	eq is-empty(B) = false [owise] .
+	
+	op length : Battery -> Nat .
+	eq length(nil) = 0 .
+	eq length(C) = 1 .
+	eq length(B1 B2) = length(B1) + length(B2) [owise] .
+	
+	op bat-life : Battery -> Nat .
+	eq bat-life(EB) = 0 .
+	eq bat-life(o) = 30 .
+	eq bat-life(+) = 15 .
+	eq bat-life(B1 B2) = bat-life(B1) + bat-life(B2) [owise] .
+	
+	op capicuizable : Battery -> Bool .
+	eq capicuizable(B B) = true .
+	eq capicuizable(EB) = true .
+	eq capicuizable(B) = false [owise] .
+	
+	op degrade-random : Battery -> Battery .
+	rl degrade-random(o B) => + B .
+	
+	op exhaust-random : Battery -> Battery .
+	rl exhaust-random(o B) => exhaust-random(+ B) .
+	rl exhaust-random(+ B) => exhaust-random(- B) .
+	eq exhaust-random(EB) = EB .
+	
+	rl [r1] : o => + .
+	rl [r2] : + => - .
+endm

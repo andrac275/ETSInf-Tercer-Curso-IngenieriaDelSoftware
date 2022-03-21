@@ -1,0 +1,11 @@
+mod QUIZIFY-CONCURRENT is
+	protecting QUIZIFY-MAUDE .
+	
+	vars L1 L2 : OptNatList .
+	vars L1? L2? : Opt?NatList .
+	var N : Nat .
+	
+	op any? : Opt?NatList ~> Nat .
+	rl any?(L1 @ ? < N > @ L2?) => N .
+	rl any?(L1 @ ? < N > @ L2?) => any?(L1 @ L2?) .
+endm

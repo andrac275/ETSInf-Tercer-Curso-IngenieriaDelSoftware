@@ -1,0 +1,21 @@
+Pregunta 3
+search false | ? < 1 > @ ? < 2 > @ ? < 3 > =>* B | L .
+
+Pregunta 4
+search false | ? < 1 > @ ? < 2 > @ ? < 3 > =>* B | L1? @ * < N > @ L2? .
+
+Pregunta 5
+search false | ? < 1 > @ ? < 2 > @ ? < 3 > =>* true | L1? @ # < N > @ L2? @ # < M > @ L3? .
+
+Pregunta 7
+search void | empty | ? < 1 > @ ? < 2 > @ ? < 3 > =>* void | empty | A < 1 > @ B < 2 > @ C < 3 > .
+
+Pregunta 8
+search void | empty | ? < 1 > @ ? < 2 > @ ? < 3 > =>* N | MS | L? .
+
+Pregunta 9
+search void | empty | ? < 1 > @ ? < 2 > @ ? < 3 > =>* N? | MS | L1? @ # < N > @ L2? @ # < M > @ L3? .
+
+Pregunta 10
+search void | empty | ? < 1 > @ * < 2 > @ ? < 3 > =>* void | empty | ? < 1 > @ A < 2 > @ ? < 3 > .
+

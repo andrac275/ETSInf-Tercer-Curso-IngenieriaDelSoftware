@@ -1,0 +1,43 @@
+fmod QUIZIFY-MAUDE-EXT2 is
+	protecting NAT .
+	sorts Opt OptV OptP Opt? .
+	op ? : -> Opt? [ctor] .
+	op * : -> OptV [ctor] .
+	op # : -> OptP [ctor] .
+	ops A B C D : -> Opt [ctor] .
+	subsort Opt < OptP < OptV < Opt? .
+	
+	sorts OptNat OptPNat OptVNat Opt?Nat .
+	subsort OptNat < OptPNat < OptVNat < Opt?Nat .
+	op _<_> : Opt Nat -> OptNat [prec 10] .
+	op _<_> : OptP Nat -> OptPNat [prec 10] .
+	op _<_> : OptV Nat -> OptVNat [prec 10] .
+	op _<_> : Opt? Nat -> Opt?Nat [prec 10] .
+	
+	sorts OptNatList OptPNatList OptVNatList Opt?NatList .
+	subsort OptNatList < OptPNatList < OptVNatList < Opt?NatList .
+	op nil : -> OptNatList [ctor] .
+	subsort OptNat < OptNatList .
+	subsort OptPNat < OptPNatList .
+	subsort OptVNat < OptVNatList .
+	subsort Opt?Nat < Opt?NatList .
+	op _@_ : Opt?NatList Opt?NatList -> Opt?NatList [ctor assoc id: nil] .
+	op _@_ : OptVNatList OptVNatList -> OptVNatList [ditto] .
+	op _@_ : OptPNatList OptPNatList -> OptPNatList [ditto] .
+	
+	op _@_ : OptNatList OptNatList -> OptNatList [ditto] .
+	
+	var L : OptNatList . vars N M : Nat . var L? : Opt?NatList . var LV : OptVNatList . var LP : OptPNatList .
+	
+	op add : Opt?NatList Nat -> Opt?NatList .
+	eq add(L?,N) = L? @ ? < N > .
+	
+	op first* : Opt?NatList ~> Nat .
+	eq first*(LP @ * < N > @ L?) = N .
+	
+	op first# : Opt?NatList -> Nat .
+	eq first#(L @ # < N > @ L?) = N .
+	
+	op first? : Opt?NatList ~> Nat .
+	eq first?(LV @ ? < N > @ L?) = N .
+endfm

@@ -1,0 +1,21 @@
+mod BATTERY-ACU is
+	pr NAT .
+	sorts Cell Battery .
+	subsort Cell < Battery .
+	ops o + - : -> Cell [ctor] .
+	op nil : -> Battery [ctor] .
+	op __ : Battery Battery -> Battery [ctor assoc comm id: nil] .
+	op cap-acu : Battery -> Bool .
+	var C : Cell .
+	var B : Battery .
+	eq cap-acu(nil) = true .
+	eq cap-acu(C) = true .
+	eq cap-acu(C B C) = cap-acu(B) .
+	
+	op unknown : Battery -> Bool .
+	eq unknown(B B) = true .
+	eq unknown(B C B) = true .
+	eq unknown(B) = false [owise] .
+	
+	rl [pregunta8] : B => + .
+endm

@@ -1,0 +1,49 @@
+mod SEMAPHORE is
+	protecting NAT .
+	protecting BOOL .
+	
+	--- Declaraciones de tipos para los procesos
+	sorts Process PState .
+	
+	--- Un proceso tiene un identificador y su estado
+	op p_{_} : Nat PState -> Process .
+	
+	--- Hay cuatro posibles estados
+	ops idle entering critical exiting : -> PState .
+	
+	--- Ponemos todos los procesos juntos en un conjunto
+	sort PSet .
+	subsort Process < PSet .
+	op empty : -> PSet .
+	op __ : PSet PSet -> PSet [assoc comm id: empty] .
+	eq X:Process X:Process = X:Process . --- Propiedad idempotencia
+	
+	--- Definimos el tipo semaforo
+	sort Semaphore .
+	subsort Bool < Semaphore .
+	
+	--- Juntamos todos los procesos con un semaforo a compartir
+	--- que define la situacion global de todo nuestro sistema
+	sort GlobalState .
+	op _||_ : Semaphore PSet -> GlobalState .
+	
+	--- Variables
+	var S : Semaphore . var PS : PSet . var Id : Nat .
+	
+	--- Y ahora damos la reglas que definen
+	--- el comportamiento de cada proceso
+	rl S || p Id {idle} PS --- El proceso sigue en idle
+	=> S || p Id {idle} PS .
+	
+	rl S || p Id {idle} PS --- El proceso pasa a entering
+	=> S || p Id {entering} PS .
+	
+	rl false || p Id {entering} PS --- El proceso entra en la zona critica
+	=> true || p Id {critical} PS .
+	
+	rl S || p Id {critical} PS --- El proceso sale de la zona critica
+	=> S || p Id {exiting} PS . --- Solo un proceso estaba en su zona critica
+	
+	rl S || p Id {exiting} PS --- El proceso sale de la zona critica
+	=> false || p Id {idle} PS .
+endm

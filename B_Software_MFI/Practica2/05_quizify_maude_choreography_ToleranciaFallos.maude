@@ -20,9 +20,7 @@ mod QUIZIFY-MAUDE-CHOREOGRAPHY is
 	var N? : Nat? . var MS : MsgSet . vars N M : Nat .
 	---EStados grafo324 Solucions grafo144
 	--- One device
-	---Andreu
 	
-
 	---Esto ya estaba
 	rl N? | MS | L1? @ ? < N > @ L2? => N? | MS #? N | L1? @ * < N > @ L2? .
 
@@ -30,14 +28,18 @@ mod QUIZIFY-MAUDE-CHOREOGRAPHY is
 	rl N? | MS | L1? @ # < N > @ L2? => N? | MS x N | L1? @ B < N > @ L2? .
 	rl N? | MS | L1? @ # < N > @ L2? => N? | MS x N | L1? @ C < N > @ L2? .
 	rl N? | MS | L1? @ # < N > @ L2? => N? | MS x N | L1? @ D < N > @ L2? .
-	---Andreu	
+	---Andreu Fichero 04	
 	rl N | MS #! N | L1? @ * < N > @ L2? => N | MS | L1? @ # < N > @ L2? .
 	
+	rl N? | empty | L? => N? |
 	
 	--- Server
 	---Esto ya estaba
 	rl void | MS #? N | L? => N | MS #! N | L? .
-	---Andreu
+	---Andreu Fichero 04
 	rl N? | MS x N | L? => void | MS | L? .
+
+	---Andreu Fichero 05
+	rl N? | MS | L? => N? | empty | L? .
 	
 endm
